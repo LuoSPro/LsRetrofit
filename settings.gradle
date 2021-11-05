@@ -1,0 +1,3 @@
+rootProject.name='LsRetrofit'
+include ':app'
+include ':lsretrofit'
