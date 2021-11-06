@@ -75,8 +75,10 @@ public class ServiceMethod {
         return callFactory.newCall(request);
     }
 
-    public void addFiledParameter(String key, String value) {
-        formBodyBuilder.add(key,value);
+    public void addFieldParameter(String key, String value) {
+        if (formBodyBuilder != null){
+            formBodyBuilder.add(key,value);
+        }
     }
 
     public void addQueryParameter(String key, String value) {
@@ -116,8 +118,8 @@ public class ServiceMethod {
          * 二、解析方法参数的注解
          * 1. 获取一个参数上面的所有注解
          * 2. 处理参数上面的每一个注解
-         *   2.1 判断这个注解：Filed、Query。、、todo：如果判断为filed，并且如果方法是get，可以提醒开发者使用query注解
-         *   2.2 得到注解上的value：请求参数的key  --> 这里用到了Handler去处理，因为filed和query会涉及到文件
+         *   2.1 判断这个注解：Field、Query。、、todo：如果判断为field，并且如果方法是get，可以提醒开发者使用query注解
+         *   2.2 得到注解上的value：请求参数的key  --> 这里用到了Handler去处理，因为field和query会涉及到文件
          * @return
          */
         public ServiceMethod build(){
@@ -141,10 +143,10 @@ public class ServiceMethod {
                     String value;
                     if (annotation instanceof Field){
                         value = ((Field) annotation).value();
-                        parameterHandlers[i] = new ParameterHandler.FiledParameterHandler(value);
+                        parameterHandlers[i] = new ParameterHandler.FieldParameterHandler(value);
                     }else if(annotation instanceof Query){
                         value = ((Query) annotation).value();
-                        parameterHandlers[i] = new ParameterHandler.FiledParameterHandler(value);
+                        parameterHandlers[i] = new ParameterHandler.FieldParameterHandler(value);
                     }
                 }
             }
